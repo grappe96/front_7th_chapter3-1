@@ -2,6 +2,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
+import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 const dirname =
@@ -20,10 +21,9 @@ const config: StorybookConfig = {
   ],
   framework: '@storybook/react-vite',
   async viteFinal(config) {
-    // Storybook의 @storybook/react-vite가 이미 React 플러그인을 포함하므로
-    // React 플러그인을 추가하지 않고 Tailwind CSS만 추가
+    // Vite 설정 병합: React, Tailwind CSS 플러그인 및 alias 설정
     return mergeConfig(config, {
-      plugins: [tailwindcss()],
+      plugins: [react(), tailwindcss()],
       resolve: {
         alias: {
           '@': path.resolve(dirname, '../src'),
