@@ -5,6 +5,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: process.env.GITHUB_PAGES ? '/front_7th_chapter3-1/' : '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
