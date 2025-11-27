@@ -1,7 +1,10 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
+import type { UserConfig } from 'vite';
+import type { UserConfig as VitestConfig } from 'vitest/config';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,4 +21,4 @@ export default defineConfig({
     setupFiles: './src/test/setup.ts',
     css: true,
   },
-});
+} as UserConfig & VitestConfig);
