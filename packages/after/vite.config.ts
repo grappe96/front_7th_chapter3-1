@@ -19,6 +19,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
-    css: true,
+    css: false, // CSS 파싱 비활성화 (jsdom이 Tailwind CSS v4 구문을 파싱하지 못함)
   },
 } as UserConfig & VitestConfig);
