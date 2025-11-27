@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '../components/atoms';
+import { Button } from '../components/ui/button';
 import { Alert, Table, Modal } from '../components/organisms';
 import { FormInput, FormSelect, FormTextarea } from '../components/molecules';
 import { userService } from '../services/userService';
@@ -291,37 +291,22 @@ export const ManagementPage: React.FC = () => {
               paddingBottom: '5px',
             }}
           >
-            <button
+            <Button
               onClick={() => setEntityType('post')}
-              style={{
-                padding: '8px 16px',
-                marginRight: '5px',
-                fontSize: '14px',
-                fontWeight: entityType === 'post' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'post' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'post' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px',
-              }}
+              variant={entityType === 'post' ? 'tabActive' : 'tab'}
+              size="md"
+              className="mr-1 text-sm"
             >
               게시글
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setEntityType('user')}
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: entityType === 'user' ? 'bold' : 'normal',
-                border: '1px solid #999',
-                background: entityType === 'user' ? '#1976d2' : '#f5f5f5',
-                color: entityType === 'user' ? 'white' : '#333',
-                cursor: 'pointer',
-                borderRadius: '3px',
-              }}
+              variant={entityType === 'user' ? 'tabActive' : 'tab'}
+              size="md"
+              className="text-sm"
             >
               사용자
-            </button>
+            </Button>
           </div>
 
           <div>

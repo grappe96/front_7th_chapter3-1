@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../ui/button';
 
 // Alert - Different styling approach with inconsistent variants
 interface AlertProps {
@@ -18,11 +19,16 @@ export const Alert: React.FC<AlertProps> = ({
 }) => {
   const getIcon = () => {
     switch (variant) {
-      case 'info': return 'ℹ️';
-      case 'success': return '✓';
-      case 'warning': return '⚠️';
-      case 'error': return '✕';
-      default: return '•';
+      case 'info':
+        return 'ℹ️';
+      case 'success':
+        return '✓';
+      case 'warning':
+        return '⚠️';
+      case 'error':
+        return '✕';
+      default:
+        return '•';
     }
   };
 
@@ -36,9 +42,15 @@ export const Alert: React.FC<AlertProps> = ({
         <div className="alert-body">{children}</div>
       </div>
       {onClose && (
-        <button onClick={onClose} className="alert-close">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-auto p-1 text-xl font-normal ml-auto flex-shrink-0 hover:bg-transparent"
+          onClick={onClose}
+          aria-label="Close"
+        >
           ×
-        </button>
+        </Button>
       )}
     </div>
   );

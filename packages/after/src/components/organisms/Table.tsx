@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '../atoms/Badge';
-import { Button } from '../atoms/Button';
+import { Button } from '../ui/button';
 
 interface Column {
   key: string;
@@ -36,7 +36,7 @@ export const Table: React.FC<TableProps> = ({
   striped = false,
   bordered = false,
   hover = false,
-  pageSize = 10,
+  pageSize = 5,
   searchable = false,
   sortable = false,
   onRowClick,
@@ -60,7 +60,8 @@ export const Table: React.FC<TableProps> = ({
   const handleSort = (columnKey: string) => {
     if (!sortable) return;
 
-    const newDirection = sortColumn === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
+    const newDirection =
+      sortColumn === columnKey && sortDirection === 'asc' ? 'desc' : 'asc';
     setSortColumn(columnKey);
     setSortDirection(newDirection);
 
@@ -80,13 +81,14 @@ export const Table: React.FC<TableProps> = ({
     setTableData(sorted);
   };
 
-  const filteredData = searchable && searchTerm
-    ? tableData.filter(row =>
-        Object.values(row).some(val =>
-          String(val).toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData =
+    searchable && searchTerm
+      ? tableData.filter((row) =>
+          Object.values(row).some((val) =>
+            String(val).toLowerCase().includes(searchTerm.toLowerCase())
+          )
         )
-      )
-    : tableData;
+      : tableData;
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * pageSize,
@@ -100,9 +102,19 @@ export const Table: React.FC<TableProps> = ({
     striped && 'table-striped',
     bordered && 'table-bordered',
     hover && 'table-hover',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const actualColumns = columns || (tableData[0] ? Object.keys(tableData[0]).map(key => ({ key, header: key, width: undefined })) : []);
+  const actualColumns =
+    columns ||
+    (tableData[0]
+      ? Object.keys(tableData[0]).map((key) => ({
+          key,
+          header: key,
+          width: undefined,
+        }))
+      : []);
 
   // 🚨 Bad Practice: Table 컴포넌트가 도메인별 렌더링 로직을 알고 있음
   const renderCell = (row: any, columnKey: string) => {
@@ -116,8 +128,11 @@ export const Table: React.FC<TableProps> = ({
       if (columnKey === 'status') {
         // User status를 Badge status로 변환
         const badgeStatus =
-          value === 'active' ? 'published' :
-          value === 'inactive' ? 'draft' : 'rejected';
+          value === 'active'
+            ? 'published'
+            : value === 'inactive'
+              ? 'draft'
+              : 'rejected';
         return <Badge status={badgeStatus} showIcon />;
       }
       if (columnKey === 'lastLogin') {
@@ -129,7 +144,11 @@ export const Table: React.FC<TableProps> = ({
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
+            <Button
+              size="sm"
+              variant="danger"
+              onClick={() => onDelete?.(row.id)}
+            >
               삭제
             </Button>
           </div>
@@ -140,11 +159,18 @@ export const Table: React.FC<TableProps> = ({
     if (entityType === 'post') {
       if (columnKey === 'category') {
         const type =
-          value === 'development' ? 'primary' :
-          value === 'design' ? 'info' :
-          value === 'accessibility' ? 'danger' :
-          'secondary';
-        return <Badge type={type} pill>{value}</Badge>;
+          value === 'development'
+            ? 'primary'
+            : value === 'design'
+              ? 'info'
+              : value === 'accessibility'
+                ? 'danger'
+                : 'secondary';
+        return (
+          <Badge type={type} pill>
+            {value}
+          </Badge>
+        );
       }
       if (columnKey === 'status') {
         return <Badge status={value} showIcon />;
@@ -185,7 +211,11 @@ export const Table: React.FC<TableProps> = ({
                 복원
               </Button>
             )}
-            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
+            <Button
+              size="sm"
+              variant="danger"
+              onClick={() => onDelete?.(row.id)}
+            >
               삭제
             </Button>
           </div>
@@ -229,7 +259,14 @@ export const Table: React.FC<TableProps> = ({
                 style={column.width ? { width: column.width } : undefined}
                 onClick={() => sortable && handleSort(column.key)}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: sortable ? 'pointer' : 'default' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    cursor: sortable ? 'pointer' : 'default',
+                  }}
+                >
                   {column.header}
                   {sortable && sortColumn === column.key && (
                     <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
@@ -257,41 +294,33 @@ export const Table: React.FC<TableProps> = ({
       </table>
 
       {totalPages > 1 && (
-        <div style={{
-          marginTop: '16px',
-          display: 'flex',
-          gap: '8px',
-          justifyContent: 'center',
-        }}>
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+        <div
+          style={{
+            marginTop: '16px',
+            display: 'flex',
+            gap: '8px',
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            size="md"
+            variant="outline"
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-            }}
           >
             이전
-          </button>
+          </Button>
           <span style={{ padding: '6px 12px' }}>
             {currentPage} / {totalPages}
           </span>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+          <Button
+            size="md"
+            variant="outline"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            style={{
-              padding: '6px 12px',
-              border: '1px solid #ddd',
-              background: 'white',
-              borderRadius: '4px',
-              cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-            }}
           >
             다음
-          </button>
+          </Button>
         </div>
       )}
     </div>

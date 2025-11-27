@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Button } from '../ui/button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -40,18 +41,20 @@ export const Modal: React.FC<ModalProps> = ({
         {title && (
           <div className="modal-header">
             <h3 className="modal-title">{title}</h3>
-            <button className="modal-close" onClick={onClose}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-10 w-10 p-0 text-2xl font-normal"
+              onClick={onClose}
+              aria-label="Close"
+            >
               ×
-            </button>
+            </Button>
           </div>
         )}
-        <div className="modal-body">
-          {children}
-        </div>
+        <div className="modal-body">{children}</div>
         {showFooter && footerContent && (
-          <div className="modal-footer">
-            {footerContent}
-          </div>
+          <div className="modal-footer">{footerContent}</div>
         )}
       </div>
     </div>
